@@ -220,7 +220,7 @@ class PointDiffusionTransformer(nn.Module):
         h = self.ln_pre(h)
         h = self.backbone(h)
         h = self.ln_post(h)
-        print('sum', sum(h.shape[1] for h in extra_tokens))
+        print('sum', (h.shape[1] for h in extra_tokens))
         if len(extra_tokens):
             h = h[:, sum(h.shape[1] for h in extra_tokens) :]
         h = self.output_proj(h)
