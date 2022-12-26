@@ -84,7 +84,7 @@ class QKVMultiheadAttention(nn.Module):
         print('weight', weight)
         wdtype = weight.dtype
         weight = torch.softmax(weight.float(), dim=-1).type(wdtype)
-        pirnt('ff', torch.einsum("bhts,bshc->bthc", weight, v).reshape(bs, n_ctx, -1))
+        print('ff', torch.einsum("bhts,bshc->bthc", weight, v).reshape(bs, n_ctx, -1))
         return torch.einsum("bhts,bshc->bthc", weight, v).reshape(bs, n_ctx, -1)
 
 
