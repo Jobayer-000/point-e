@@ -71,20 +71,16 @@ class QKVMultiheadAttention(nn.Module):
         self.n_ctx = n_ctx
 
     def forward(self, qkv):
-        print('qkv')
         bs, n_ctx, width = qkv.shape
         attn_ch = width // self.heads // 3
         scale = 1 / math.sqrt(math.sqrt(attn_ch))
-        print('scale', scale)
         qkv = qkv.view(bs, n_ctx, self.heads, -1)
         q, k, v = torch.split(qkv, attn_ch, dim=-1)
         weight = torch.einsum(
             "bthc,bshc->bhts", q * scale, k * scale
         )  # More stable with f16 than dividing afterwards
-        print('weight', weight)
         wdtype = weight.dtype
         weight = torch.softmax(weight.float(), dim=-1).type(wdtype)
-        print('ff', torch.einsum("bhts,bshc->bthc", weight, v).reshape(bs, n_ctx, -1))
         return torch.einsum("bhts,bshc->bthc", weight, v).reshape(bs, n_ctx, -1)
 
 
@@ -220,11 +216,10 @@ class PointDiffusionTransformer(nn.Module):
         ]
         if len(extra_tokens):
             h = torch.cat(extra_tokens + [h], dim=1)
-       
+
         h = self.ln_pre(h)
         h = self.backbone(h)
         h = self.ln_post(h)
-       
         if len(extra_tokens):
             h = h[:, sum(h.shape[1] for h in extra_tokens) :]
         h = self.output_proj(h)
