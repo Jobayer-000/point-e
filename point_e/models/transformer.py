@@ -220,11 +220,11 @@ class PointDiffusionTransformer(nn.Module):
         ]
         if len(extra_tokens):
             h = torch.cat(extra_tokens + [h], dim=1)
-        print('h_after_concat', h.shape)
+       
         h = self.ln_pre(h)
         h = self.backbone(h)
         h = self.ln_post(h)
-        print('sum', (h.shape[1] for h in extra_tokens))
+       
         if len(extra_tokens):
             h = h[:, sum(h.shape[1] for h in extra_tokens) :]
         h = self.output_proj(h)
