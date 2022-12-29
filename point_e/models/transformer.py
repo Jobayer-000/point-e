@@ -216,7 +216,10 @@ class PointDiffusionTransformer(nn.Module):
         ]
         if len(extra_tokens):
             h = torch.cat(extra_tokens + [h], dim=1)
-
+        print(h.shape)
+        for i in extra_tokens:
+            print(i.shape)
+       
         h = self.ln_pre(h)
         h = self.backbone(h)
         h = self.ln_post(h)
