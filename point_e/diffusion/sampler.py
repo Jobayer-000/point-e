@@ -153,7 +153,7 @@ class PointCloudSampler:
                 if stage_guidance_scale:
                     model = self._uncond_guide_model(model, stage_guidance_scale)
                     internal_batch_size *= 2
-                samples_it = diffusion.p_sample_loop_progressive(
+                samples_it = diffusion.ddim_sample_loop_progressive(
                     model,
                     shape=(internal_batch_size, *sample_shape[1:]),
                     model_kwargs=stage_model_kwargs,
