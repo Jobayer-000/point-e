@@ -222,9 +222,8 @@ class PointDiffusionTransformer(nn.Module):
         h = self.ln_post(h)
         if len(extra_tokens):
             h = h[:, sum(h.shape[1] for h in extra_tokens) :]
-        print(h)
+        
         h = self.output_proj(h)
-        print(h)
         return h.permute(0, 2, 1)
 
 
