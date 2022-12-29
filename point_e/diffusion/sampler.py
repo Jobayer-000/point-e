@@ -198,6 +198,8 @@ class PointCloudSampler:
             model_out = model(combined, ts, **kwargs)
             eps, rest = model_out[:, :3], model_out[:, 3:]
             cond_eps, uncond_eps = torch.chunk(eps, 2, dim=0)
+            print('cond', cond_eps)
+            print('uncond', uncond_eps)
             half_eps = uncond_eps + scale * (cond_eps - uncond_eps)
             eps = torch.cat([half_eps, half_eps], dim=0)
             return torch.cat([eps, rest], dim=1)
