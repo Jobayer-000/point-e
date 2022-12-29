@@ -340,7 +340,8 @@ class CLIPImageGridPointDiffusionTransformer(PointDiffusionTransformer):
         assert x.shape[-1] == self.n_ctx
 
         t_embed = self.time_embed(timestep_embedding(t, self.backbone.width))
-        print(len(images))
+        print(images)
+        print(embeddings)
         if images is not None:
             clip_out = self.clip.embed_images_grid(images)
         else:
