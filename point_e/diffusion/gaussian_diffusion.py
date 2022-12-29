@@ -632,7 +632,7 @@ class GaussianDiffusion:
 
         # Equation 12. reversed
         mean_pred = out["pred_xstart"] * th.sqrt(alpha_bar_next) + th.sqrt(1 - alpha_bar_next) * eps
-
+        print(mean_pred.max())
         return {"sample": mean_pred, "pred_xstart": out["pred_xstart"]}
 
     def ddim_sample_loop(
