@@ -216,9 +216,7 @@ class PointDiffusionTransformer(nn.Module):
         ]
         if len(extra_tokens):
             h = torch.cat(extra_tokens + [h], dim=1)
-        print(h.shape)
-        for i in extra_tokens:
-            print(i.shape)
+        
        
         h = self.ln_pre(h)
         h = self.backbone(h)
@@ -342,7 +340,7 @@ class CLIPImageGridPointDiffusionTransformer(PointDiffusionTransformer):
         assert x.shape[-1] == self.n_ctx
 
         t_embed = self.time_embed(timestep_embedding(t, self.backbone.width))
-
+        print(len(images))
         if images is not None:
             clip_out = self.clip.embed_images_grid(images)
         else:
